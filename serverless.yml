@@ -28,12 +28,23 @@ functions:
 
 plugins:
     - serverless-offline
+    - serverless-s3-sync
 
 custom:
   TableName: test-table
+  s3Sync:
+        - bucketName: jareerserverlessprojectbucket-321321
+          localDir: Uploads
 
 resources:
     Resources:
+      #AWS S3 Bucket 
+      DemoBucketUpload:
+        Type: AWS::S3::Bucket
+        Properties:
+          BucketName: jareerserverlessprojectbucket-321321
+
+      # Dynamo DB
       MyDynamoDbTable:
         Type: AWS::DynamoDB::Table
         Properties:
