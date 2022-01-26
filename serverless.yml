@@ -25,6 +25,13 @@ functions:
      - httpApi:
          path: /sendEmail
          method: get
+  getUser:
+    handler: lambdas/getUser.handler
+    events:
+     - http:
+        path: get-user/{ID}
+        method: GET
+        cors: true
 
 plugins:
     - serverless-offline
