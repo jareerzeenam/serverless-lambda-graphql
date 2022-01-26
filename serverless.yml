@@ -36,6 +36,10 @@ functions:
 plugins:
     - serverless-offline
     - serverless-s3-sync
+    - serverless-webpack
+
+package:
+  individually: true
 
 custom:
   TableName: test-table
