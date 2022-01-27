@@ -13,6 +13,7 @@ provider:
       Action: 
         - dynamodb:*
         - s3:*
+        - ses:*
       Resource: '*'
   # API KEY
   apiGateway:
@@ -51,13 +52,6 @@ functions:
     events:
      - httpApi:
          path: /imageResize
-         method: get
-
-  sendEmail:
-    handler: handler.sendEmail
-    events:
-     - httpApi:
-         path: /sendEmail
          method: get
 
   getUser:
@@ -108,13 +102,20 @@ functions:
           path: chunk-norris/{proxy+}
           method: ANY
           integration: http-proxy
+          private: true
           request:
               uri: http://api.icndb.com/{proxy}
               parameters:
                 paths:
                   proxy: true
 
-
+  sendEmail:
+    handler: lambdas/endpoints/sendEmail.handler
+    events:
+     - http:
+        path: send-email
+        method: POST
+        cors: true
 
 plugins:
     - serverless-offline
