@@ -5,6 +5,15 @@ provider:
   name: aws
   runtime: nodejs12.x
   lambdaHashingVersion: 20201221
+  environment:
+    tableName: ${self:custom.TableName}
+    bucketName: ${self:custom.BucketName}
+  iamRoleStatements:
+    - Effect: Allow
+      Action: 
+        - dynamodb:*
+        - s3:*
+      Resource: '*'
 
 functions:
   hello:
@@ -13,25 +22,61 @@ functions:
      - httpApi:
          path: /
          method: get
+
   imageResize:
     handler: handler.imageResize
     events:
      - httpApi:
          path: /imageResize
          method: get
+
   sendEmail:
     handler: handler.sendEmail
     events:
      - httpApi:
          path: /sendEmail
          method: get
+
   getUser:
-    handler: lambdas/getUser.handler
+    handler: lambdas/endpoints/getUser.handler
     events:
      - http:
         path: get-user/{ID}
         method: GET
         cors: true
+
+  getPlayerScore:
+    handler: lambdas/endpoints/getPlayerScore.handler
+    events:
+     - http:
+        path: get-player-score/{ID}
+        method: GET
+        cors: true
+
+  createPlayerScore:
+    handler: lambdas/endpoints/createPlayerScore.handler
+    events:
+     - http:
+        path: create-player-score/{ID}
+        method: POST
+        cors: true
+
+  createFile:
+    handler: lambdas/endpoints/createFile.handler
+    events:
+     - http:
+        path: create-file/{fileName}
+        method: POST
+        cors: true
+
+  getFile:
+    handler: lambdas/endpoints/getFile.handler
+    events:
+     - http:
+        path: get-file/{fileName}
+        method: GET
+        cors: true
+
 
 plugins:
     - serverless-offline
@@ -42,9 +87,10 @@ package:
   individually: true
 
 custom:
-  TableName: test-table
+  TableName: player-scores
+  BucketName: jareerserverlessprojectbucket-321321
   s3Sync:
-        - bucketName: jareerserverlessprojectbucket-321321
+        - bucketName: ${self:custom.BucketName}
           localDir: Uploads
 
 resources:
@@ -53,7 +99,7 @@ resources:
       DemoBucketUpload:
         Type: AWS::S3::Bucket
         Properties:
-          BucketName: jareerserverlessprojectbucket-321321
+          BucketName: ${self:custom.BucketName}
 
       # Dynamo DB
       MyDynamoDbTable:
