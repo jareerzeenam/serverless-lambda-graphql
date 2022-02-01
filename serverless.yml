@@ -118,10 +118,18 @@ functions:
         method: POST
         cors: true
 
+  graphql:
+    handler: gql.graphqlHandler
+    events:
+      - http:
+          path: "graphql"
+          method: any
+          cors: true
+
 plugins:
     - serverless-offline
     - serverless-s3-sync
-    - serverless-webpack
+    # - serverless-webpack
 
 package:
   individually: true
