@@ -16,8 +16,14 @@ To run serverless offline comment the `- serverless-webpack` in the serverless.y
 serverless offline start
 ```
 
-### Configure serverless credentials 
+### Configure AWS with serverless
 
 You can read my blog and follow the steps to setup your Serverless with AWS, link attached below 
 
-### [Setting up Serverless Framework with AWS](https://medium.com/@jareerzeenam/setting-up-serverless-framework-with-aws-19736402c146) 
+### [Setting up Serverless Framework with AWS](https://medium.com/@jareerzeenam/setting-up-serverless-framework-with-aws-19736402c146)
+
+### Deploy to aws 
+
+```
+serverless deploy
+```
